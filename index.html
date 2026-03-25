@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tibo TESSIER | Liens</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --ff: 'DM Sans', sans-serif;
+      --ffd: 'Syne', sans-serif;
+
+      --bg0: #07070d;
+      --bg1: #0e0e16;
+      --bg2: #15151e;
+      --bg3: #1c1c27;
+
+      --b: rgba(255,255,255,.07);
+      --bh: rgba(255,255,255,.14);
+      --ba: rgba(255,255,255,.26);
+
+      --t1: #ededf4;
+      --t2: #8080a0;
+
+      --acc: #6b8cff;
+      --accd: rgba(107,140,255,.10);
+      --accb: rgba(107,140,255,.28);
+
+      --r: 11px;
+      --rl: 17px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--ff);
+      background: var(--bg0);
+      color: var(--t1);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 60px 20px;
+      position: relative;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .bg-blobs {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 20% 18%, rgba(107,140,255,.12), transparent 32%),
+        radial-gradient(circle at 80% 28%, rgba(34,211,238,.08), transparent 24%),
+        radial-gradient(circle at 50% 82%, rgba(244,63,94,.06), transparent 28%),
+        var(--bg0);
+    }
+
+    .linktree-container {
+      width: 100%;
+      max-width: 540px;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .profile {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+
+    .avatar {
+      width: 88px;
+      height: 88px;
+      margin: 0 auto 20px;
+      border-radius: 24px;
+      background: linear-gradient(180deg, var(--accd), var(--bg2));
+      border: 1px solid var(--accb);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--ffd);
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--acc);
+    }
+
+    .profile h1 {
+      font-family: var(--ffd);
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: var(--t1);
+      margin-bottom: 4px;
+    }
+
+    .profile p {
+      color: var(--t2);
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .links-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      width: 100%;
+    }
+
+    .link-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 24px;
+      border-radius: var(--rl);
+      border: 1px solid var(--b);
+      background: var(--bg2);
+      color: var(--t1);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 15px;
+      transition: all 0.2s ease;
+    }
+
+    .link-card-content {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .link-card i.main-icon {
+      font-size: 20px;
+      color: var(--acc);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+    }
+
+    .link-card i.arrow {
+      color: var(--t2);
+      font-size: 13px;
+      transition: transform 0.2s ease;
+    }
+
+    .link-card:hover {
+      border-color: var(--accb);
+      background: var(--bg3);
+      transform: translateY(-2px);
+    }
+
+    .link-card:hover i.arrow {
+      transform: translateX(4px);
+      color: var(--acc);
+    }
+
+    .link-card.primary {
+      border-color: var(--accb);
+      background: linear-gradient(180deg, var(--accd), var(--bg2));
+    }
+
+    .social-row {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 36px;
+    }
+
+    .social-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--r);
+      border: 1px solid var(--b);
+      background: var(--bg2);
+      color: var(--t2);
+      font-size: 18px;
+      display: grid;
+      place-items: center;
+      transition: 0.15s;
+      text-decoration: none;
+    }
+
+    .social-icon:hover {
+      border-color: var(--acc);
+      color: var(--acc);
+      background: var(--bg3);
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="bg-blobs"></div>
+
+  <div class="linktree-container">
+    
+    <div class="profile">
+      <div class="avatar">TT</div>
+      <h1>Tibo Tessier</h1>
+      <p>Développeur Full Stack</p>
+    </div>
+
+    <div class="links-grid">
+      <a href="https://tibotsr.dev/" class="link-card primary">
+        <div class="link-card-content">
+          <i class="fas fa-rocket main-icon"></i>
+          <span>Portfolio Officiel</span>
+        </div>
+        <i class="fas fa-chevron-right arrow"></i>
+      </a>
+      
+      <a href="#" class="link-card">
+        <div class="link-card-content">
+          <i class="fas fa-calendar-alt main-icon"></i>
+          <span>Calendrier France ICS</span>
+        </div>
+        <i class="fas fa-chevron-right arrow"></i>
+      </a>
+      
+      <a href="https://github.com/TiboTsr" class="link-card">
+        <div class="link-card-content">
+          <i class="fab fa-github main-icon" style="color: var(--t1);"></i>
+          <span>Projets GitHub</span>
+        </div>
+        <i class="fas fa-chevron-right arrow"></i>
+      </a>
+
+      <a href="#" class="link-card">
+        <div class="link-card-content">
+          <i class="fab fa-discord main-icon" style="color: #5865F2;"></i>
+          <span>Serveur Discord</span>
+        </div>
+        <i class="fas fa-chevron-right arrow"></i>
+      </a>
+    </div>
+
+    <div class="social-row">
+      <a href="mailto:tibo.tessier@gmail.com" class="social-icon" title="Email">
+        <i class="fas fa-envelope"></i>
+      </a>
+      <a href="https://linkedin.com/in/tibotessier" class="social-icon" title="LinkedIn">
+        <i class="fab fa-linkedin-in"></i>
+      </a>
+      <a href="https://tibotsr.dev/CV_Tibo_Tessier.pdf" class="social-icon" title="CV PDF">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+    </div>
+
+  </div>
+
+</body>
+</html>
