@@ -17,8 +17,8 @@
 
       --bg0: #07070d;
       --bg1: #0e0e16;
-      --bg2: #15151e;
-      --bg3: #1c1c27;
+      --bg2: rgba(21, 21, 30, 0.6);
+      --bg3: rgba(28, 28, 39, 0.8);
 
       --b: rgba(255,255,255,.07);
       --bh: rgba(255,255,255,.14);
@@ -28,11 +28,12 @@
       --t2: #8080a0;
 
       --acc: #6b8cff;
-      --accd: rgba(107,140,255,.10);
-      --accb: rgba(107,140,255,.28);
+      --acc-alt: #22d3ee;
+      --accd: rgba(107,140,255,.15);
+      --accb: rgba(107,140,255,.40);
 
-      --r: 11px;
-      --rl: 17px;
+      --r: 14px;
+      --rl: 20px;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -50,6 +51,33 @@
       position: relative;
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
+      cursor: none;
+    }
+
+    .cursor-dot,
+    .cursor-outline {
+      position: fixed;
+      top: 0;
+      left: 0;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      z-index: 9999;
+      pointer-events: none;
+    }
+    .cursor-dot {
+      width: 6px;
+      height: 6px;
+      background-color: var(--acc);
+    }
+    .cursor-outline {
+      width: 30px;
+      height: 30px;
+      border: 2px solid var(--accb);
+      transition: width 0.2s, height 0.2s, background-color 0.2s, border-color 0.2s;
+    }
+    @media (hover: none) and (pointer: coarse) {
+      body { cursor: auto; }
+      .cursor-dot, .cursor-outline { display: none !important; }
     }
 
     .bg-blobs {
@@ -57,11 +85,70 @@
       inset: 0;
       z-index: -1;
       pointer-events: none;
-      background:
-        radial-gradient(circle at 20% 18%, rgba(107,140,255,.12), transparent 32%),
-        radial-gradient(circle at 80% 28%, rgba(34,211,238,.08), transparent 24%),
-        radial-gradient(circle at 50% 82%, rgba(244,63,94,.06), transparent 28%),
-        var(--bg0);
+      background-color: var(--bg0);
+      overflow: hidden;
+    }
+
+    .blob {
+      position: absolute;
+      filter: blur(80px);
+      border-radius: 50%;
+      opacity: 0.5;
+      animation: float 15s infinite alternate ease-in-out;
+    }
+
+    .blob-1 { width: 300px; height: 300px; background: var(--acc); top: -10%; left: -10%; }
+    .blob-2 { width: 250px; height: 250px; background: var(--acc-alt); bottom: 20%; right: -5%; animation-delay: -5s; }
+    .blob-3 { width: 200px; height: 200px; background: #f43f5e; top: 40%; left: 40%; opacity: 0.3; animation-delay: -10s; }
+
+    @keyframes float {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(30px, 50px) scale(1.2); }
+    }
+
+    .share-btn {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      background: var(--bg2);
+      border: 1px solid var(--b);
+      color: var(--t1);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      cursor: none;
+      backdrop-filter: blur(12px);
+      transition: 0.3s;
+      z-index: 10;
+    }
+    .share-btn:hover {
+      background: var(--bg3);
+      border-color: var(--acc);
+      color: var(--acc);
+      transform: scale(1.1);
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: var(--acc);
+      color: var(--bg0);
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 14px;
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      z-index: 1000;
+      box-shadow: 0 10px 30px var(--accd);
+    }
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
     }
 
     .linktree-container {
@@ -71,11 +158,18 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      margin-top: 20px;
     }
 
     .profile {
       text-align: center;
-      margin-bottom: 36px;
+      margin-bottom: 40px;
+      animation: fadeInDown 0.8s ease forwards;
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .avatar {
@@ -89,30 +183,35 @@
       align-items: center;
       justify-content: center;
       font-family: var(--ffd);
-      font-size: 28px;
+      font-size: 32px;
       font-weight: 800;
       color: var(--acc);
+      animation: pulse 3s infinite alternate ease-in-out;
+      box-shadow: 0 10px 30px var(--accd);
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); box-shadow: 0 10px 30px var(--accd); }
+      100% { transform: scale(1.05); box-shadow: 0 15px 40px var(--accb); }
     }
 
     .profile h1 {
       font-family: var(--ffd);
-      font-size: 26px;
+      font-size: 32px;
       font-weight: 800;
       letter-spacing: -0.5px;
-      color: var(--t1);
-      margin-bottom: 4px;
+      background: linear-gradient(90deg, #fff, var(--acc-alt));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 6px;
     }
 
-    .profile p {
-      color: var(--t2);
-      font-size: 15px;
-      font-weight: 500;
-    }
+    .profile p { color: var(--t2); font-size: 16px; font-weight: 500; }
 
     .links-grid {
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 16px;
       width: 100%;
     }
 
@@ -124,93 +223,123 @@
       border-radius: var(--rl);
       border: 1px solid var(--b);
       background: var(--bg2);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       color: var(--t1);
       text-decoration: none;
       font-weight: 600;
-      font-size: 15px;
-      transition: all 0.2s ease;
+      font-size: 16px;
+      transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: slideUp 0.5s ease forwards;
     }
 
-    .link-card-content {
-      display: flex;
-      align-items: center;
-      gap: 14px;
+    @keyframes slideUp {
+      to { opacity: 1; transform: translateY(0); }
     }
 
+    .link-card:nth-child(1) { animation-delay: 0.1s; }
+    .link-card:nth-child(2) { animation-delay: 0.2s; }
+    .link-card:nth-child(3) { animation-delay: 0.3s; }
+    .link-card:nth-child(4) { animation-delay: 0.4s; }
+    .link-card:nth-child(5) { animation-delay: 0.5s; }
+    .link-card:nth-child(6) { animation-delay: 0.6s; }
+
+    .link-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 50%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+      transition: all 0.5s ease;
+      z-index: 0;
+    }
+
+    .link-card-content { display: flex; align-items: center; gap: 16px; z-index: 2; transform: translateZ(20px); }
+    
     .link-card i.main-icon {
-      font-size: 20px;
-      color: var(--acc);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 24px;
+      font-size: 22px; color: var(--acc); display: flex; align-items: center; justify-content: center;
+      width: 28px; transition: transform 0.3s ease;
     }
 
     .link-card i.arrow {
-      color: var(--t2);
-      font-size: 13px;
-      transition: transform 0.2s ease;
+      color: var(--t2); font-size: 14px; transition: all 0.3s ease; z-index: 2; transform: translateZ(20px);
     }
 
     .link-card:hover {
       border-color: var(--accb);
       background: var(--bg3);
-      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5), 0 0 15px var(--accd);
     }
 
-    .link-card:hover i.arrow {
-      transform: translateX(4px);
-      color: var(--acc);
-    }
+    .link-card:hover::before { left: 150%; }
+    .link-card:hover i.main-icon { transform: scale(1.1) rotate(-5deg); }
+    .link-card:hover i.arrow { transform: translateX(6px); color: var(--acc-alt); }
 
     .link-card.primary {
       border-color: var(--accb);
-      background: linear-gradient(180deg, var(--accd), var(--bg2));
+      background: linear-gradient(135deg, rgba(107,140,255,0.15), rgba(34,211,238,0.05));
     }
 
     .social-row {
       display: flex;
-      gap: 12px;
+      gap: 16px;
       justify-content: center;
-      margin-top: 36px;
+      margin-top: 40px;
     }
 
     .social-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: var(--r);
-      border: 1px solid var(--b);
-      background: var(--bg2);
-      color: var(--t2);
-      font-size: 18px;
-      display: grid;
-      place-items: center;
-      transition: 0.15s;
-      text-decoration: none;
+      width: 48px; height: 48px; border-radius: 50%;
+      border: 1px solid var(--b); background: var(--bg2);
+      backdrop-filter: blur(10px); color: var(--t2);
+      font-size: 20px; display: grid; place-items: center;
+      transition: all 0.3s ease; text-decoration: none;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: slideUp 0.5s ease forwards;
     }
 
+    .social-icon:nth-child(1) { animation-delay: 0.7s; }
+    .social-icon:nth-child(2) { animation-delay: 0.8s; }
+
     .social-icon:hover {
-      border-color: var(--acc);
-      color: var(--acc);
-      background: var(--bg3);
+      border-color: var(--acc); color: var(--bg1);
+      background: var(--acc); transform: translateY(-4px) !important;
+      box-shadow: 0 8px 20px var(--accd);
     }
 
   </style>
 </head>
 <body>
 
-  <div class="bg-blobs"></div>
+  <div class="cursor-dot"></div>
+  <div class="cursor-outline"></div>
+
+  <div class="toast" id="toast">Lien copié dans le presse-papier ! 🚀</div>
+
+  <button class="share-btn" title="Copier le lien" onclick="copyMyLink()">
+    <i class="fas fa-share-nodes"></i>
+  </button>
+
+  <div class="bg-blobs">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
 
   <div class="linktree-container">
     
     <div class="profile">
       <div class="avatar">TT</div>
-      <h1>Tibo Tessier</h1>
+      <h1>Tibo Tsr</h1>
       <p>Voici mes liens :</p>
     </div>
 
     <div class="links-grid">
-      <a href="https://tibotsr.dev/" target="_blank" class="link-card primary">
+      <a href="https://tibotsr.dev/" target="_blank" class="link-card primary" data-tilt data-tilt-scale="1.02" data-tilt-glare data-tilt-max-glare="0.2">
         <div class="link-card-content">
           <i class="fas fa-rocket main-icon"></i>
           <span>Portfolio Officiel</span>
@@ -218,26 +347,42 @@
         <i class="fas fa-chevron-right arrow"></i>
       </a>
       
-      <a href="https://calendrier-fr.tibotsr.dev" target="_blank" class="link-card">
+      <a href="https://calendrier-fr.tibotsr.dev" target="_blank" class="link-card" data-tilt data-tilt-scale="1.02" data-tilt-glare data-tilt-max-glare="0.2">
         <div class="link-card-content">
           <i class="fas fa-calendar-alt main-icon"></i>
           <span>Calendrier France ICS</span>
         </div>
         <i class="fas fa-chevron-right arrow"></i>
       </a>
-      
-      <a href="https://github.com/TiboTsr" target="_blank" class="link-card">
+
+      <a href="https://applebot.tibotsr.dev" target="_blank" class="link-card" data-tilt data-tilt-scale="1.02" data-tilt-glare data-tilt-max-glare="0.2">
         <div class="link-card-content">
-          <i class="fab fa-github main-icon" style="color: var(--t1);"></i>
+          <i class="fab fa-apple main-icon"></i>
+          <span>AppleBot (Bot Discord)</span>
+        </div>
+        <i class="fas fa-chevron-right arrow"></i>
+      </a>
+      
+      <a href="https://github.com/TiboTsr" target="_blank" class="link-card" data-tilt data-tilt-scale="1.02" data-tilt-glare data-tilt-max-glare="0.2">
+        <div class="link-card-content">
+          <i class="fab fa-github main-icon"></i>
           <span>Mon GitHub</span>
         </div>
         <i class="fas fa-chevron-right arrow"></i>
       </a>
 
-      <a href="https://discord.com/users/476420730989445130" target="_blank" class="link-card">
+      <a href="https://discord.com/users/476420730989445130" target="_blank" class="link-card" data-tilt data-tilt-scale="1.02" data-tilt-glare data-tilt-max-glare="0.2">
         <div class="link-card-content">
           <i class="fab fa-discord main-icon" style="color: #5865F2;"></i>
           <span>Mon Discord</span>
+        </div>
+        <i class="fas fa-chevron-right arrow"></i>
+      </a>
+
+      <a href="https://buymeacoffee.com/tibotsr" target="_blank" class="link-card" data-tilt data-tilt-scale="1.02" data-tilt-glare data-tilt-max-glare="0.2">
+        <div class="link-card-content">
+          <i class="fas fa-mug-hot main-icon" style="color: #FFDD00;"></i>
+          <span>M'offrir un café ☕</span>
         </div>
         <i class="fas fa-chevron-right arrow"></i>
       </a>
@@ -250,15 +395,53 @@
       <a href="https://linkedin.com/in/tibotessier" target="_blank" class="social-icon" title="LinkedIn">
         <i class="fab fa-linkedin-in"></i>
       </a>
-      <a href="https://instagram.com/tibo.tsr" target="_blank" class="social-icon" title="Instagram">
-        <i class="fab fa-instagram"></i>
-      </a>
-      <!--<a href="https://tibotsr.dev/CV_Tibo_Tessier.pdf" class="social-icon" title="CV PDF">
-        <i class="fas fa-file-pdf"></i>
-      </a>-->
     </div>
 
   </div>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+  
+  <script>
+    const cursorDot = document.querySelector('.cursor-dot');
+    const cursorOutline = document.querySelector('.cursor-outline');
+
+    window.addEventListener('mousemove', (e) => {
+      const posX = e.clientX;
+      const posY = e.clientY;
+
+      cursorDot.style.left = `${posX}px`;
+      cursorDot.style.top = `${posY}px`;
+
+      cursorOutline.animate({
+        left: `${posX}px`,
+        top: `${posY}px`
+      }, { duration: 500, fill: "forwards" });
+    });
+
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        cursorOutline.style.width = '50px';
+        cursorOutline.style.height = '50px';
+        cursorOutline.style.backgroundColor = 'rgba(107, 140, 255, 0.1)';
+        cursorOutline.style.borderColor = 'rgba(107, 140, 255, 0.8)';
+      });
+      el.addEventListener('mouseleave', () => {
+        cursorOutline.style.width = '30px';
+        cursorOutline.style.height = '30px';
+        cursorOutline.style.backgroundColor = 'transparent';
+        cursorOutline.style.borderColor = 'var(--accb)';
+      });
+    });
+
+    function copyMyLink() {
+      navigator.clipboard.writeText(window.location.href).then(() => {
+        const toast = document.getElementById('toast');
+        toast.classList.add('show');
+        setTimeout(() => {
+          toast.classList.remove('show');
+        }, 3000);
+      });
+    }
+  </script>
 </body>
 </html>
